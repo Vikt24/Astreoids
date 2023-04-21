@@ -7,11 +7,6 @@ public class Projectile : MonoBehaviour
     public Rigidbody2D body;
     public float speed;
 
-    void Update()
-    {
-        body.velocity = new Vector2(0, speed);
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         LayerMask layer = collision.gameObject.layer;

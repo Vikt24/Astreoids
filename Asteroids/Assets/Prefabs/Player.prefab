@@ -124,7 +124,8 @@ MonoBehaviour:
   body: {fileID: 453659441262016397}
   prefab: {fileID: 0}
   gun: {fileID: 0}
-  speed: 1
+  cam: {fileID: 0}
+  speed: 8
   rotation: 2
   attackSpeed: 15
 --- !u!61 &955710309286264996
@@ -225,7 +226,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 4
   m_Sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
   m_Color: {r: 0.8113208, g: 0.2041058, b: 0.2041058, a: 1}
   m_FlipX: 0

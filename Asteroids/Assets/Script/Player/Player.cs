@@ -5,48 +5,40 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public Rigidbody2D body;
-    public GameObject prefab, gun;
-    Vector3 newRot;
-    Quaternion gunRot;
+    public GameObject prefab;
+    public Transform gun;
+    public Camera cam;
+    private Vector2 mosePos;
     public float speed, rotation, attackSpeed;
-    private float coldown, changeInRot, pos;
+    private float coldown;
 
-    private void Start()
+    private void FixedUpdate()
     {
-        changeInRot = gameObject.transform.rotation.z;
+        Vector2 lookDir = mosePos - body.position;
+        float ange = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg -90f;
+        body.rotation = ange;
     }
 
     void Update()
     {
-        pos = gameObject.transform.position.x;
-
         coldown -= 0.1f;
         if (coldown<= 0)
             coldown = 0;
 
+        mosePos = cam.ScreenToWorldPoint(Input.mousePosition);
 
-        if (Input.GetKeyDown(KeyCode.W))
-            body.velocity += new Vector2 (body.velocity.x, speed);
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            pos -= 1;
-        }
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            pos += 1;
-        }
-            //if (Input.GetKeyDown(KeyCode.A))
-            //{
-            //    changeInRot += rotation;
-            //}
-            //if (Input.GetKeyDown(KeyCode.D))
-            //{
-            //    changeInRot -= rotation;
-            //}
-            //newRot = new Vector3(0, 0, changeInRot);
-            //gunRot = Quaternion.Euler(newRot);
-            //transform.localEulerAngles = newRot;
-            //gun.transform.rotation = gunRot;
+        float horInput = Input.GetAxis("Horizontal");
+        float vertInput = Input.GetAxis("Vertical");
+        body.velocity = new Vector2(horInput * speed, vertInput * speed);
+
+        if (body.velocity.x >= 9)
+            body.velocity = new Vector2(9, body.velocity.y);
+        if (body.velocity.x <= -9)
+            body.velocity = new Vector2(-9, body.velocity.y);
+        if (body.velocity.y >= 9)
+            body.velocity = new Vector2(body.velocity.x, 9);
+        if (body.velocity.y <= -9)
+            body.velocity = new Vector2(body.velocity.x, -9);
 
         if (Input.GetKeyDown(KeyCode.Q) && coldown == 0)
         {
@@ -54,13 +46,14 @@ public class Player : MonoBehaviour
             coldown += attackSpeed;
         }
 
-        gameObject.transform.position = new Vector2(pos, gameObject.transform.position.y);
 
     }
 
     private void Attack() 
     {
-        Instantiate(prefab, body.position, body.transform.rotation);
+        GameObject projektile = Instantiate(prefab, body.position, body.transform.rotation);
+        Rigidbody2D rb = projektile.GetComponent<Rigidbody2D>();
+        rb.AddForce(gun.up /10, ForceMode2D.Impulse);
     }
 
 }
