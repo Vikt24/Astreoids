@@ -5,11 +5,11 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public Rigidbody2D body;
-    public GameObject prefab;
+    public GameObject prefab, deathScreen;
     public Transform gun;
     public Camera cam;
     private Vector2 mosePos;
-    public float speed, rotation, attackSpeed;
+    public float speed, rotation, attackSpeed, projektileSpeed;
     private float coldown;
 
     private void FixedUpdate()
@@ -40,20 +40,43 @@ public class Player : MonoBehaviour
         if (body.velocity.y <= -9)
             body.velocity = new Vector2(body.velocity.x, -9);
 
-        if (Input.GetKeyDown(KeyCode.Q) && coldown == 0)
+        if (Input.GetKeyDown(KeyCode.Q) && coldown == 0 || Input.GetKeyDown(KeyCode.Mouse0) && coldown == 0)
         {
             Attack();
             coldown += attackSpeed;
         }
-
-
+        BorderCheck();
     }
 
     private void Attack() 
     {
         GameObject projektile = Instantiate(prefab, body.position, body.transform.rotation);
         Rigidbody2D rb = projektile.GetComponent<Rigidbody2D>();
-        rb.AddForce(gun.up /10, ForceMode2D.Impulse);
+        rb.AddForce(gun.up * projektileSpeed, ForceMode2D.Impulse);
+    }
+
+    private void BorderCheck()
+    {
+        if (body.position.y >= 9f)
+            body.position = new Vector2(body.position.x, -9f);
+        if (body.position.y <= -9f)
+            body.position = new Vector2(body.position.x, 9f);
+        if (body.position.x >= 21f)
+            body.position = new Vector2(-21f, body.position.y);
+        if (body.position.x <= -21f)
+            body.position = new Vector2(21f, body.position.y);
+        
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        LayerMask layer = collision.gameObject.layer;
+
+        if (layer == 6)
+        {
+            deathScreen.SetActive(true);
+            Destroy(gameObject);
+        }
     }
 
 }

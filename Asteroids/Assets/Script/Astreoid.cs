@@ -4,11 +4,18 @@ using UnityEngine;
 
 public class Astreoid : MonoBehaviour
 {
-    public float speed, size, diraktion;
+    public SpawnManeger SpawnManeger;
+    public GameObject center;
+    public float size, diraktion, speed;
     public Rigidbody2D body;
 
     void Update()
     {
-        body.velocity = new Vector2(speed, 0);
+        transform.position += transform.up * (Time.deltaTime * speed);
+        float distance = Vector3.Distance(transform.position, center.transform.position);
+        if (distance > SpawnManeger.killradius)
+        {
+            Destroy(gameObject);
+        }
     }
 }
