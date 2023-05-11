@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public Rigidbody2D body;
-    public GameObject prefab, deathScreen;
+    public GameObject prefab, deathScreen, menuScreen;
     public Transform gun;
     public Camera cam;
     private Vector2 mosePos;
@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        coldown -= 0.1f;
+        coldown -= 0.1f * Time.deltaTime;
         if (coldown<= 0)
             coldown = 0;
 
@@ -43,7 +43,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q) && coldown == 0 || Input.GetKeyDown(KeyCode.Mouse0) && coldown == 0)
         {
             Attack();
-            coldown += attackSpeed;
+            coldown += attackSpeed * Time.deltaTime;
         }
         BorderCheck();
     }
@@ -57,15 +57,18 @@ public class Player : MonoBehaviour
 
     private void BorderCheck()
     {
-        if (body.position.y >= 9f)
-            body.position = new Vector2(body.position.x, -9f);
-        if (body.position.y <= -9f)
-            body.position = new Vector2(body.position.x, 9f);
-        if (body.position.x >= 21f)
-            body.position = new Vector2(-21f, body.position.y);
-        if (body.position.x <= -21f)
-            body.position = new Vector2(21f, body.position.y);
+        // if player is outside from the 
+        Vector3 pos = cam.WorldToViewportPoint(transform.position);
         
+        if (pos.y > 1.0f) // Top
+            body.position = cam.ViewportToWorldPoint(new(pos.x, 0f));
+        if (pos.y < 0f) // Bottom
+            body.position = cam.ViewportToWorldPoint(new(pos.x, 1f));
+        if (pos.x > 1.0f) // Right
+            body.position = cam.ViewportToWorldPoint(new(0f, pos.y));
+        if (pos.x < 0f) // Left
+            body.position = cam.ViewportToWorldPoint(new(1f, pos.y));
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -74,7 +77,9 @@ public class Player : MonoBehaviour
 
         if (layer == 6)
         {
+            menuScreen.SetActive(false);
             deathScreen.SetActive(true);
+            Destroy(collision.gameObject);
             Destroy(gameObject);
         }
     }

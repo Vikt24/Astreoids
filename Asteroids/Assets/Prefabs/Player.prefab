@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8104714819454539334}
   m_Layer: 3
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Moving obj
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 8104714819454539335}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8104714821010434622}
@@ -123,11 +123,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   body: {fileID: 8104714819454539332}
   prefab: {fileID: 8686463782465054677, guid: 7363f3e89c34d624dad7562a3e583a3e, type: 3}
+  deathScreen: {fileID: 0}
+  menuScreen: {fileID: 0}
   gun: {fileID: 8104714821010434622}
   cam: {fileID: 0}
   speed: 6
   rotation: 2
   attackSpeed: 15
+  projektileSpeed: 0
 --- !u!61 &8104714819454539334
 BoxCollider2D:
   m_ObjectHideFlags: 0

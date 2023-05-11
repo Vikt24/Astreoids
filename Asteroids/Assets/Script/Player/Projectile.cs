@@ -12,6 +12,7 @@ public class Projectile : MonoBehaviour
         
         if (layer == 6)
         {
+            GameManeger.instance.IncreaseScore();
             Destroy(collision.gameObject);
             Destroy(this.gameObject);
         }

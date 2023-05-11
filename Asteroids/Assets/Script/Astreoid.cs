@@ -6,7 +6,7 @@ public class Astreoid : MonoBehaviour
 {
     public SpawnManeger SpawnManeger;
     public GameObject center;
-    public float size, diraktion, speed;
+    public float speed;
     public Rigidbody2D body;
 
     void Update()
