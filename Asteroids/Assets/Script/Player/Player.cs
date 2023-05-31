@@ -26,11 +26,12 @@ public class Player : MonoBehaviour
             coldown = 0;
 
         mosePos = cam.ScreenToWorldPoint(Input.mousePosition);
-
+        
+        //movment
         float horInput = Input.GetAxis("Horizontal");
         float vertInput = Input.GetAxis("Vertical");
         body.velocity = new Vector2(horInput * speed, vertInput * speed);
-
+        //speed limits
         if (body.velocity.x >= 9)
             body.velocity = new Vector2(9, body.velocity.y);
         if (body.velocity.x <= -9)
@@ -40,16 +41,20 @@ public class Player : MonoBehaviour
         if (body.velocity.y <= -9)
             body.velocity = new Vector2(body.velocity.x, -9);
 
+        //attack function
         if (Input.GetKeyDown(KeyCode.Q) && coldown == 0 || Input.GetKeyDown(KeyCode.Mouse0) && coldown == 0)
         {
             Attack();
             coldown += attackSpeed * Time.deltaTime;
         }
+
+        //screen teleportation (top to bottttom and left to right)
         BorderCheck();
     }
 
     private void Attack() 
     {
+        //fires gun
         GameObject projektile = Instantiate(prefab, body.position, body.transform.rotation);
         Rigidbody2D rb = projektile.GetComponent<Rigidbody2D>();
         rb.AddForce(gun.up * projektileSpeed, ForceMode2D.Impulse);
@@ -75,6 +80,7 @@ public class Player : MonoBehaviour
     {
         LayerMask layer = collision.gameObject.layer;
 
+        //cheking if player is colliding with atreoids
         if (layer == 6)
         {
             menuScreen.SetActive(false);

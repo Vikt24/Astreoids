@@ -11,8 +11,11 @@ public class Astreoid : MonoBehaviour
 
     void Update()
     {
+        //creating a constant speed
         transform.position += transform.up * (Time.deltaTime * speed);
         float distance = Vector3.Distance(transform.position, center.transform.position);
+
+        // destroys when out of bounds
         if (distance > SpawnManeger.killradius)
         {
             Destroy(gameObject);

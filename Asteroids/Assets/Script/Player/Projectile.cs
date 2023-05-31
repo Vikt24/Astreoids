@@ -12,14 +12,15 @@ public class Projectile : MonoBehaviour
         
         if (layer == 6)
         {
-            GameManeger.instance.IncreaseScore();
-            Destroy(collision.gameObject);
-            Destroy(this.gameObject);
+            GameManeger.instance.IncreaseScore(); // incrases score
+            Destroy(collision.gameObject); //destoys targeted astreoid 
+            Destroy(this.gameObject); 
         }
     }
 
     private void Update()
     {
+        //remove when out of bounds
         if (body.position.y >= 11f)
             Destroy(gameObject);
         if (body.position.y <= -11f)

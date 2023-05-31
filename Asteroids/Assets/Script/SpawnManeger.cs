@@ -42,15 +42,17 @@ public class SpawnManeger : MonoBehaviour
         return (pos);
     }
 
-    Astreoid AddAstreoid( Vector3 pos)
+    Astreoid AddAstreoid(Vector3 pos)
     {
-        type = Random.Range(1,5);
+        type = Random.Range(1, 5);
         GameObject newAstreoid;
+        //Choses wich type of astreoid
         if (type == 1)
             newAstreoid = Instantiate(astreoid2, pos, Quaternion.FromToRotation(Vector3.up, (center.transform.position - pos)), gameObject.transform);
         else
             newAstreoid = Instantiate(astreoid1, pos, Quaternion.FromToRotation(Vector3.up, (center.transform.position - pos)), gameObject.transform);
-        
+
+        //Gives the astreoid the stats nessesary
         Astreoid astreoidScript = newAstreoid.GetComponent<Astreoid>();
         astreoidScript.SpawnManeger = this;
         astreoidScript.center = center;
